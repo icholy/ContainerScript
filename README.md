@@ -1,3 +1,16 @@
 # WIP: Container Script
 
 > Firefox Addon for programatically assining URLs to containers.
+
+### Build
+
+``` sh
+npm ci
+npm run build
+```
+
+### Install
+
+* Open firefox to `about:debugging#/runtime/this-firefox`
+* Click "Load Temporary Add-on..."
+* Select the `manifest.json` file.
