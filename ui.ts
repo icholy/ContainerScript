@@ -20,8 +20,19 @@ const libUri = "ts:filename/ContainerScript.d.ts";
 monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
 monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
-monaco.editor.create(document.getElementById('root')!, {
-	value: `const foo = () => 0;`,
+const editor = monaco.editor.create(document.getElementById('root')!, {
 	language: 'javascript',
 	automaticLayout: true,
+});
+
+browser.storage.local.get("script").then((value) => {
+	editor.setValue(value.script);
+});
+
+let timeout: number | undefined;
+editor.onDidChangeModelContent(() => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+	browser.storage.local.set({ script: editor.getValue() });
+  }, 300);
 });
