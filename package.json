@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "package": "webpack --mode production && web-ext build -s ./dist -a . -o"
+    "package": "webpack --mode production && web-ext build -s ./dist -a . -o",
+    "lint": "web-ext lint -s ./dist"
   },
   "author": "",
   "license": "ISC",
