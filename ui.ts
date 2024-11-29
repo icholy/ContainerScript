@@ -10,8 +10,18 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 	document.body.appendChild(div);
 })();
 
+const libSource = [
+	"/**",
+	" * The URL we're finding a container for",
+	" */",
+	"declare const url: URL"
+].join("\n")
+const libUri = "ts:filename/ContainerScript.d.ts";
+monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
+
 monaco.editor.create(document.getElementById('root')!, {
 	value: `const foo = () => 0;`,
 	language: 'javascript',
-	theme: 'vs-dark'
+	automaticLayout: true,
 });
