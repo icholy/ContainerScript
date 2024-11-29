@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "ContainerScript",
+  "version": "1.0",
+  "description": "User defined scripts for assining URLs to containers",
+  "permissions": [
+    "<all_urls>",
+    "contextualIdentities",
+    "cookies",
+    "webRequestBlocking",
+    "webRequest"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
