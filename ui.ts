@@ -12,17 +12,14 @@ async function main() {
   monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
   monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
+  const { script } = await browser.storage.local.get("script");
+
   // create the editor
   const editor = monaco.editor.create(document.getElementById("root")!, {
+    value: script ?? "// Write JavaScript code here",
     language: "javascript",
     automaticLayout: true,
   });
-
-  // setup sync
-  const { script } = await browser.storage.local.get("script");
-  if (script) {
-    editor.setValue(script);
-  }
 
   let timeout: any;
   editor.onDidChangeModelContent(() => {
