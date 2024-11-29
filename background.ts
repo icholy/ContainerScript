@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 
+import Sval from 'sval';
+
 interface ContainerInfo {
   name: string;
   icon?: string;
@@ -60,9 +62,22 @@ async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
 ): Promise<browser.webRequest.BlockingResponse> {
 
+  const { script } = await browser.storage.local.get("script");
+  if (!script) {
+    return {};
+  }
+
+  const interpreter = new Sval({
+    ecmaVer: 'latest',
+    sourceType: 'script',
+    sandBox: true,
+  });
+
+  interpreter.import({ url: new URL(request.url) });
+  interpreter.run(`exports.end = (() => { ${script} })()`);
+
   // get the container info
-  const url = new URL(request.url);
-  const info = toContainerInfo(fn(url));
+  const info = toContainerInfo(interpreter.exports.end);
   if (!info) {
     return {};
   }

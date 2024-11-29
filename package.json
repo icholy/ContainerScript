@@ -20,6 +20,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "monaco-editor": "^0.52.0"
+    "monaco-editor": "^0.52.0",
+    "sval": "^0.5.2"
   }
 }
