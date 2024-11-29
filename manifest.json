@@ -8,9 +8,11 @@
     "contextualIdentities",
     "cookies",
     "webRequestBlocking",
-    "webRequest"
+    "webRequest",
+    "tabs"
   ],
   "background": {
     "scripts": ["background.js"]
-  }
+  },
+  "web_accessible_resources": ["ui.html"]
 }

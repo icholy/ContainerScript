@@ -83,3 +83,9 @@ browser.webRequest.onBeforeRequest.addListener(
   },
   ["blocking"],
 );
+
+browser.browserAction.onClicked.addListener(async () => {
+  await browser.tabs.create({
+    url: browser.runtime.getURL("ui.html")
+  });
+});
