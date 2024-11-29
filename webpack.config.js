@@ -34,7 +34,7 @@ module.exports = {
 		new MonacoWebpackPlugin({ languages: ['javascript', 'typescript'] }),
 		new CopyPlugin({
 			patterns: [
-				{ from: 'icon/*.png', to: 'icon' },
+				{ from: 'icon/*.png' },
 				{ from: 'ui.html' },
 				{ from: 'manifest.json' }
 			]
