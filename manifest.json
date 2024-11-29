@@ -12,7 +12,7 @@
     "tabs"
   ],
   "background": {
-    "scripts": ["background.bundle.js"]
+    "scripts": ["./dist/background.bundle.js"]
   },
   "browser_action": {
     "default_title": "ContainerScript"
