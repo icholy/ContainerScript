@@ -10,8 +10,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/firefox-webext-browser": "^120.0.4",
+    "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "prettier": "^3.4.1",
+    "style-loader": "^4.0.0",
     "typescript": "^5.7.2",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"

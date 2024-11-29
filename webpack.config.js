@@ -2,6 +2,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path');
 
 module.exports = {
+	mode: 'production',
 	entry: './ui.js',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -19,5 +20,7 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [new MonacoWebpackPlugin()]
+	plugins: [
+		new MonacoWebpackPlugin({ languages: ['javascript'] })
+	],
 };
