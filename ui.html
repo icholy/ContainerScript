@@ -40,6 +40,31 @@
 				border-radius: 4px;
 				box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 				background-color: #fff;
+				margin-bottom: 30px;
+			}
+			.instructions {
+				background-color: #fff;
+				padding: 25px;
+				border-radius: 4px;
+				box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			}
+			.instructions h2 {
+				color: #2c3e50;
+				margin-top: 0;
+				margin-bottom: 15px;
+			}
+			.instructions p {
+				color: #34495e;
+				line-height: 1.6;
+				margin-bottom: 15px;
+			}
+			.instructions code {
+				background-color: #f8f9fa;
+				padding: 2px 6px;
+				border-radius: 3px;
+				font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+				font-size: 0.9em;
+				color: #e83e8c;
 			}
 		</style>
 	</head>
@@ -53,6 +78,20 @@
 				</div>
 			</div>
 			<div id="root"></div>
+		<div class="instructions">
+			<h2>How to Use ContainerScript</h2>
+				<p>
+					Write JavaScript code to define container rules.
+					The code runs each time you open a URL, with the <code>url</code> variable (an instance of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> class) available in scope.
+					The code is executed using <a href="https://github.com/Siubaak/sval">Sval</a> due to <a href="https://www.w3.org/TR/CSP/">CSP</a> restrictions.
+				</p>
+			<h3>Basic Usage</h3>
+			<p>Return a string to open the URL in that container:</p>
+			<p><code>if (url.hostname === 'amazon.com') { return 'shopping'; }</code></p>
+			<h3>Advanced Configuration</h3>
+			<p>Return an object for more control over the container:</p>
+			<p><code>if (url.includes('bank.com')) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
+		</div>
 		</div>
 		<script src="./dist/ui.bundle.js"></script>
 	</body>
