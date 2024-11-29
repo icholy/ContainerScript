@@ -4,8 +4,8 @@ const path = require('path');
 module.exports = {
 	mode: 'development',
 	entry: {
-		ui: './ui.js',
-		background: './background.js'
+		ui: './ui.ts',
+		background: './background.ts'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -23,6 +23,10 @@ module.exports = {
 			{
 				test: /\.ttf$/,
 				use: ['file-loader']
+			},
+			{
+				test: /\.ts$/,
+				use: ['ts-loader']
 			}
 		]
 	},
