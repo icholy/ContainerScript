@@ -1,6 +1,6 @@
 # WIP: Container Script
 
-> Firefox Addon for programatically assining URLs to containers.
+> Firefox Addon for programatically assigning URLs to containers.
 
 ### Build
 
