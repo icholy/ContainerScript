@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import Sval from 'sval';
+import * as Sval from 'sval';
 
 interface ContainerInfo {
   name: string;
@@ -27,34 +27,24 @@ async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
 ): Promise<browser.webRequest.BlockingResponse> {
 
-  console.log("onBeforeRequest", request);
-
   const { script } = await browser.storage.local.get("script");
   if (!script) {
-    console.log("No script");
     return {};
   }
 
-  console.log("Running script", script);
-
+  // @ts-ignore
   const interpreter = new Sval({
     ecmaVer: 'latest',
     sourceType: 'script',
     sandBox: true,
   });
-
   interpreter.import({ url: new URL(request.url) });
   interpreter.run(`exports.end = (() => { ${script} })()`);
 
-  console.log("Script result", interpreter.exports);
-
   const info = toContainerInfo(interpreter.exports.end);
   if (!info) {
-    console.log("No container info");
     return {};
   }
-
-  console.log("Container info", info);
 
   // Get or create the container
   const containers = await browser.contextualIdentities.query({
@@ -90,7 +80,7 @@ async function onBeforeRequest(
 browser.webRequest.onBeforeRequest.addListener(
   onBeforeRequest,
   {
-    urls: ["*"],
+    urls: ["<all_urls>"],
     types: ["main_frame"],
   },
   ["blocking"],

@@ -33,10 +33,8 @@ async function main() {
 
 	let timeout: any;
 	editor.onDidChangeModelContent(() => {
-		console.log("onDidChangeModelContent");
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
-			console.log("onDidChangeModelContent timeout, value:", editor.getValue());
 			browser.storage.local.set({ script: editor.getValue() });
 		}, 300);
 	});
