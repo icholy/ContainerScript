@@ -10,8 +10,10 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].bundle.js',
-		chunkFormat: false
+		chunkFormat: false,
+		clean: true,
 	},
+	devtool: false,
 	module: {
 		rules: [
 			{
