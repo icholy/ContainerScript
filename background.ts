@@ -8,41 +8,6 @@ interface ContainerInfo {
   color?: string;
 }
 
-type ContainerInfoFn = (url: URL) => string | ContainerInfo | undefined | null;
-
-let fn: ContainerInfoFn = () => null;
-
-async function main() {
-  const { script } = await browser.storage.local.get("script");
-  if (script) {
-    try {
-      fn = new Function("url", script) as ContainerInfoFn;
-    } catch (err) {
-      console.error('Failed to update fn:', err);
-    }
-  }
-
-  browser.storage.local.onChanged.addListener(changes => {
-    if (changes.script) {
-      try {
-        fn = new Function("url", script) as ContainerInfoFn;
-      } catch (err) {
-        console.error('Failed to update fn:', err);
-      }
-    }
-  });
-};
-
-main();
-
-browser.storage.local.get("script").then((value) => {
-  try {
-    fn = new Function("url", value.script) as ContainerInfoFn;
-  } catch (err) {
-    console.error('Failed to update fn:', err);
-  }
-});
-
 function toContainerInfo(value: any): ContainerInfo | undefined {
   if (!value) {
     return undefined;
@@ -76,7 +41,6 @@ async function onBeforeRequest(
   interpreter.import({ url: new URL(request.url) });
   interpreter.run(`exports.end = (() => { ${script} })()`);
 
-  // get the container info
   const info = toContainerInfo(interpreter.exports.end);
   if (!info) {
     return {};
