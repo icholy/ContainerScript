@@ -9,7 +9,8 @@
     "cookies",
     "webRequestBlocking",
     "webRequest",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "background": {
     "scripts": ["./dist/background.bundle.js"]
