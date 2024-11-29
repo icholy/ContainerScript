@@ -20,7 +20,7 @@
   },
   "background": {
     "scripts": [
-      "./dist/background.bundle.js"
+      "background.bundle.js"
     ]
   },
   "browser_action": {
