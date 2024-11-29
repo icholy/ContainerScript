@@ -16,7 +16,7 @@ function toContainerInfo(value: any): ContainerInfo | undefined {
     return { name: value };
   }
   if (typeof value === "object") {
-    if (typeof value.name === "string") {
+    if (value.name && typeof value.name === "string") {
       return value;
     }
   }
