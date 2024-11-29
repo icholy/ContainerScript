@@ -31,7 +31,7 @@ async function main() {
 		editor.setValue(script);
 	}
 
-	let timeout: number | undefined;
+	let timeout: any;
 	editor.onDidChangeModelContent(() => {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
