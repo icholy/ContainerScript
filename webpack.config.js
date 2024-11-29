@@ -13,7 +13,6 @@ module.exports = {
 		chunkFormat: false,
 		clean: true,
 	},
-	target: 'es6',
 	devtool: false,
 	module: {
 		rules: [
