@@ -8,15 +8,38 @@ interface ContainerInfo {
 
 type ContainerInfoFn = (url: URL) => string | ContainerInfo | undefined | null;
 
-const fn: ContainerInfoFn = (url) => {
-  if (
-    url.hostname === "signin.aws.amazon.com" &&
-    url.pathname === "/federation" &&
-    url.searchParams.get("Action") === "login"
-  ) {
-    return url.searchParams.get("x-SessionName");
+let fn: ContainerInfoFn = () => null;
+
+async function main() {
+  const { script } = await browser.storage.local.get("script");
+  if (script) {
+    try {
+      fn = new Function("url", script) as ContainerInfoFn;
+    } catch (err) {
+      console.error('Failed to update fn:', err);
+    }
   }
+
+  browser.storage.local.onChanged.addListener(changes => {
+    if (changes.script) {
+      try {
+        fn = new Function("url", script) as ContainerInfoFn;
+      } catch (err) {
+        console.error('Failed to update fn:', err);
+      }
+    }
+  });
 };
+
+main();
+
+browser.storage.local.get("script").then((value) => {
+  try {
+    fn = new Function("url", value.script) as ContainerInfoFn;
+  } catch (err) {
+    console.error('Failed to update fn:', err);
+  }
+});
 
 function toContainerInfo(value: any): ContainerInfo | undefined {
   if (!value) {
