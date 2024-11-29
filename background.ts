@@ -32,7 +32,6 @@ async function onBeforeRequest(
     return {};
   }
 
-  // @ts-ignore
   const interpreter = new Sval({
     ecmaVer: 'latest',
     sourceType: 'script',
