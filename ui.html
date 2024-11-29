@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="icon" type="image/png" href="icon/icon-16.png">
 		<title>ContainerScript Editor</title>
 		<style>
 			body {
@@ -16,6 +17,13 @@
 			}
 			.header {
 				margin-bottom: 20px;
+				display: flex;
+				align-items: center;
+				gap: 15px;
+			}
+			.header img {
+				width: 70px;
+				height: 70px;
 			}
 			.header h1 {
 				color: #2c3e50;
@@ -38,8 +46,11 @@
 	<body>
 		<div class="container">
 			<div class="header">
-				<h1>Container Script: Beta</h1>
-				<p>Programatically assign URLs to containers.</p>
+				<img src="icon/icon-512.png" alt="ContainerScript Logo">
+				<div>
+					<h1>Container Script: Beta</h1>
+					<p>Programatically assign URLs to containers.</p>
+				</div>
 			</div>
 			<div id="root"></div>
 		</div>
