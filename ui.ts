@@ -1,7 +1,17 @@
-import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
-const container = document.getElementById('container');
-monaco.editor.create(container!, {
-	value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-	language: 'javascript'
+(function () {
+	// create div to avoid needing a HtmlWebpackPlugin template
+	const div = document.createElement('div');
+	div.id = 'root';
+	// @ts-ignore
+	div.style = 'width:800px; height:600px; border:1px solid #ccc;';
+
+	document.body.appendChild(div);
+})();
+
+monaco.editor.create(document.getElementById('root')!, {
+	value: `const foo = () => 0;`,
+	language: 'javascript',
+	theme: 'vs-dark'
 });
