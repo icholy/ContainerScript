@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import * as Sval from 'sval';
+import Sval from 'sval';
 
 interface ContainerInfo {
   name: string;
