@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import Sval from 'sval';
+import Sval from "sval";
 
 interface ContainerInfo {
   name: string;
@@ -26,15 +26,14 @@ function toContainerInfo(value: any): ContainerInfo | undefined {
 async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
 ): Promise<browser.webRequest.BlockingResponse> {
-
   const { script } = await browser.storage.local.get("script");
   if (!script) {
     return {};
   }
 
   const interpreter = new Sval({
-    ecmaVer: 'latest',
-    sourceType: 'script',
+    ecmaVer: "latest",
+    sourceType: "script",
     sandBox: true,
   });
   interpreter.import({ url: new URL(request.url) });
@@ -87,6 +86,6 @@ browser.webRequest.onBeforeRequest.addListener(
 
 browser.browserAction.onClicked.addListener(async () => {
   await browser.tabs.create({
-    url: browser.runtime.getURL("ui.html")
+    url: browser.runtime.getURL("ui.html"),
   });
 });
