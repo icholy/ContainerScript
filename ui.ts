@@ -1,16 +1,17 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 async function main() {
-  // setup the url parameter for auto-complete
-  const libSource = [
-    "/**",
-    " * The URL we're finding a container for",
-    " */",
-    "declare const url: URL",
-  ].join("\n");
-  const libUri = "ts:filename/ContainerScript.d.ts";
-  monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
-  monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
+
+  //// setup the url parameter for auto-complete
+  //const libSource = [
+  //  "/**",
+  //  " * The URL we're finding a container for",
+  //  " */",
+  //  "declare const url: URL",
+  //].join("\n");
+  //const libUri = "ts:filename/ContainerScript.d.ts";
+  //monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+  //monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
   const { script } = await browser.storage.local.get("script");
 

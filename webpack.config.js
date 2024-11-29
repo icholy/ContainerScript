@@ -31,7 +31,12 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new MonacoWebpackPlugin({ languages: ['javascript', 'typescript'] }),
+		new MonacoWebpackPlugin({
+			languages: ['javascript'],
+
+			// ts.worker.js is bigger than 4MB :(
+			features: ['!typescript']
+		}),
 		new CopyPlugin({
 			patterns: [
 				{ from: 'icon/*.png' },
