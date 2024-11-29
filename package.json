@@ -12,5 +12,8 @@
     "@types/firefox-webext-browser": "^120.0.4",
     "prettier": "^3.4.1",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.52.0"
   }
 }
