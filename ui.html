@@ -87,7 +87,7 @@
 				</p>
 			<h3>Basic Usage</h3>
 			<p>Return a string to open the URL in that container:</p>
-			<p><code>if (url.hostname === "www.amazon.com") { return "shopping"; }</code></p>
+			<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
 			<h3>Advanced Configuration</h3>
 			<p>Return an object for more control over the container:</p>
 			<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
