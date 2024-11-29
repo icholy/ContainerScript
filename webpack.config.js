@@ -21,6 +21,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new MonacoWebpackPlugin({ languages: ['javascript'] })
+		new MonacoWebpackPlugin({ languages: ['javascript', 'typescript'] })
 	],
 };
