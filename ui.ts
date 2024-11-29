@@ -16,7 +16,7 @@ async function main() {
 
   // create the editor
   const editor = monaco.editor.create(document.getElementById("root")!, {
-    value: script ?? "// Write JavaScript code here",
+    value: script || "// Write JavaScript code here",
     language: "javascript",
     automaticLayout: true,
   });
