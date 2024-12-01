@@ -45,13 +45,30 @@
 			}
 			.instructions {
 				background-color: #fff;
-				padding: 25px;
 				border-radius: 4px;
 				box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 			}
-			.instructions h2 {
+			.instructions summary {
+				padding: 20px 25px;
+				cursor: pointer;
+				user-select: none;
 				color: #2c3e50;
-				margin-top: 0;
+				font-weight: 600;
+				font-size: 1.2em;
+			}
+			.instructions summary:hover {
+				background-color: #f8f9fa;
+			}
+			.instructions summary:focus {
+				outline: none;
+			}
+			.instructions-content {
+				padding: 0 25px 25px 25px;
+				border-top: 1px solid #eee;
+			}
+			.instructions h3 {
+				color: #2c3e50;
+				margin-top: 20px;
 				margin-bottom: 15px;
 			}
 			.instructions p {
@@ -79,20 +96,22 @@
 				</div>
 			</div>
 			<div id="root"></div>
-			<div class="instructions">
-				<h2>How to Use ContainerScript</h2>
+			<details class="instructions">
+				<summary>How to Use ContainerScript</summary>
+				<div class="instructions-content">
 					<p>
 						Write JavaScript code to define container rules.
 						The code runs each time you open a URL, with the <code>url</code> variable (an instance of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> class) available in scope.
 						The code is executed using <a href="https://github.com/Siubaak/sval">Sval</a> due to <a href="https://www.w3.org/TR/CSP/">CSP</a> restrictions.
 					</p>
-				<h3>Basic Usage</h3>
-				<p>Return a string to open the URL in that container:</p>
-				<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
-				<h3>Advanced Configuration</h3>
-				<p>Return an object for more control over the container:</p>
-				<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
-			</div>
+					<h3>Basic Usage</h3>
+					<p>Return a string to open the URL in that container:</p>
+					<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
+					<h3>Advanced Configuration</h3>
+					<p>Return an object for more control over the container:</p>
+					<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
+				</div>
+			</details>
 		</div>
 		<script src="ui.js"></script>
 	</body>
