@@ -1,6 +1,16 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+// @ts-ignore
+import * as monaco from "./monaco-editor/out/monaco-editor/esm/vs/editor/editor.api";
 
 async function main() {
+
+  self.MonacoEnvironment = {
+    getWorkerUrl(moduleId, label) {
+      if (label === 'typescript' || label === 'javascript') {
+        return 'ts.worker.js';
+      }
+      return 'editor.worker.js';
+    }
+  };
 
   //// setup the url parameter for auto-complete
   //const libSource = [

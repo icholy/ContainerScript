@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "package": "webpack --mode production && web-ext build -s ./dist -a . -o",
+    "build": "node ./build.mjs",
+    "build:monaco": "npm ci --ignore-scripts --prefix ./monaco-editor && npm run build-monaco-editor --prefix ./monaco-editor",
+    "package": "npm run build && web-ext build -s ./dist -a . -o",
     "lint": "web-ext lint -s ./dist"
   },
   "author": "",
