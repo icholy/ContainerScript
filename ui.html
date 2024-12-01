@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<link rel="stylesheet" href="ui.css">
 		<link rel="icon" type="image/png" href="icon/icon-16.png">
-		<title>Container Script Editor</title>
+		<title>ContainerScript Editor</title>
 		<style>
 			body {
 				margin: 0;
@@ -74,25 +74,25 @@
 			<div class="header">
 				<img src="icon/icon-512.png" alt="ContainerScript Logo">
 				<div>
-					<h1>Container Script: Beta</h1>
+					<h1>Container Script</h1>
 					<p>Programatically assign URLs to containers.</p>
 				</div>
 			</div>
 			<div id="root"></div>
-		<div class="instructions">
-			<h2>How to Use ContainerScript</h2>
-				<p>
-					Write JavaScript code to define container rules.
-					The code runs each time you open a URL, with the <code>url</code> variable (an instance of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> class) available in scope.
-					The code is executed using <a href="https://github.com/Siubaak/sval">Sval</a> due to <a href="https://www.w3.org/TR/CSP/">CSP</a> restrictions.
-				</p>
-			<h3>Basic Usage</h3>
-			<p>Return a string to open the URL in that container:</p>
-			<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
-			<h3>Advanced Configuration</h3>
-			<p>Return an object for more control over the container:</p>
-			<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
-		</div>
+			<div class="instructions">
+				<h2>How to Use ContainerScript</h2>
+					<p>
+						Write JavaScript code to define container rules.
+						The code runs each time you open a URL, with the <code>url</code> variable (an instance of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> class) available in scope.
+						The code is executed using <a href="https://github.com/Siubaak/sval">Sval</a> due to <a href="https://www.w3.org/TR/CSP/">CSP</a> restrictions.
+					</p>
+				<h3>Basic Usage</h3>
+				<p>Return a string to open the URL in that container:</p>
+				<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
+				<h3>Advanced Configuration</h3>
+				<p>Return an object for more control over the container:</p>
+				<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
+			</div>
 		</div>
 		<script src="ui.js"></script>
 	</body>
