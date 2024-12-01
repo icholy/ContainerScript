@@ -6,11 +6,16 @@
 
 ``` sh
 npm ci
-npm run build
+npm run build:monaco
+npm run package
 ```
 
 ### Install
 
 * Open firefox to `about:debugging#/runtime/this-firefox`
 * Click "Load Temporary Add-on..."
-* Select the `manifest.json` file.
+* Select the `dist/manifest.json` file.
+
+### Notes:
+
+We've forced to vendor the monaco-editor repository until the following PR is merged: https://github.com/microsoft/monaco-editor/pull/4765

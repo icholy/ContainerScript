@@ -1,0 +1,90 @@
+###############################################################################################
+#  Copyright (c) Microsoft Corporation. All rights reserved.
+#  Licensed under the MIT License. See License.txt in the project root for license information.
+###############################################################################################
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger: none
+pr: none
+
+schedules:
+  - cron: '0 7 * * *'
+    displayName: Daily release
+    branches:
+      include:
+        - main
+    always: true
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: microsoft/vscode-engineering
+      ref: main
+      endpoint: Monaco
+
+parameters:
+  - name: publishMonacoEditorCore
+    displayName: 🚀 Publish Monaco Editor Core
+    type: boolean
+    default: true
+  - name: publishMonacoEditor
+    displayName: 🚀 Publish Monaco Editor
+    type: boolean
+    default: true
+  - name: vscodeRef
+    displayName: The VS Code commit id.
+    type: string
+    default: 'main'
+  - name: prereleaseVersion
+    displayName: The prerelease version.
+    type: string
+    default: 'dev-${today}'
+
+extends:
+  template: azure-pipelines/npm-package/pipeline.yml@templates
+  parameters:
+    cgIgnoreDirectories: $(Build.SourcesDirectory)/dependencies/vscode
+    npmPackages:
+      - name: monaco-editor-core
+        workingDirectory: $(Build.SourcesDirectory)/dependencies/vscode/out-monaco-editor-core
+        testPlatforms: []
+        skipAPIScan: true # package build requires Linux
+        buildSteps:
+          - script: sudo apt install -y libkrb5-dev
+            displayName: Install libkrb5-dev
+
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: yarn ts-node ./scripts/ci/monaco-editor-core-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
+            retryCountOnTaskFailure: 5
+            displayName: Setup, Build & Test monaco-editor-core
+
+        tag: next
+        ghCreateTag: false
+        publishPackage: ${{ parameters.publishMonacoEditorCore }}
+        publishRequiresApproval: false
+
+      - name: monaco-editor
+        dependsOn: monaco-editor-core
+        workingDirectory: $(Build.SourcesDirectory)/out/monaco-editor
+        testPlatforms: []
+        skipAPIScan: true # package build requires Linux
+        buildSteps:
+          - script: npm ci
+            displayName: Install NPM dependencies
+
+          - script: yarn ts-node ./scripts/ci/monaco-editor-prepare nightly
+            env:
+              VSCODE_REF: ${{ parameters.vscodeRef }}
+              PRERELEASE_VERSION: ${{ parameters.prereleaseVersion }}
+            retryCountOnTaskFailure: 5
+            displayName: Setup, Build & Test monaco-editor
+
+        tag: next
+        publishPackage: ${{ parameters.publishMonacoEditor }}
+        publishRequiresApproval: false

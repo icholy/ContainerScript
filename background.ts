@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import Sval from "sval";
 
 interface ContainerInfo {
