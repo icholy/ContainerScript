@@ -50,7 +50,7 @@ await Promise.all([
 		bundle: true,
 		format: 'iife',
 		minify: true,
-		outfile: './dist/ui.js',
+		outdir: 'dist',
 		loader: { '.ttf': 'file' }
 	}),
 	build({

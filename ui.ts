@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as monaco from "./monaco-editor/out/monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from "./monaco-editor/out/monaco-editor/esm/vs/editor/editor.main.js";
 
 async function main() {
 
