@@ -2,7 +2,7 @@ import { build } from 'esbuild';
 import fs from 'fs';
 import path from 'path';
 
-await fs.promises.rm('dist', { recursive: true });
+await fs.promises.rm('dist', { recursive: true, force: true });
 
 const assets = [
 	'manifest.json',
