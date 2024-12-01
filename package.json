@@ -1,0 +1,25 @@
+{
+  "name": "containerscript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node ./build.mjs",
+    "build:monaco": "npm ci --ignore-scripts --prefix ./monaco-editor && npm run build-monaco-editor --prefix ./monaco-editor",
+    "package": "npm run build && web-ext build -s ./dist -a . -o",
+    "format": "prettier --write ui.ts background.ts",
+    "lint": "web-ext lint -s ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^120.0.4",
+    "esbuild": "^0.24.0",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2",
+    "web-ext": "^8.3.0"
+  },
+  "dependencies": {
+    "sval": "^0.5.2"
+  }
+}
