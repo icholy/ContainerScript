@@ -2,6 +2,9 @@ import { build } from 'esbuild';
 import fs from 'fs';
 import path from 'path';
 
+await fs.promises.mkdir("./dist", { recursive: true });
+await fs.promises.copyFile('ui.html', './dist/ui.html');
+
 function monacoPath(name) {
 	return path.join('./monaco-editor/out/monaco-editor', name);
 }
@@ -32,7 +35,7 @@ await build({
 });
 
 await build({
-	entryPoints: ['ui.js'],
+	entryPoints: ['ui.ts'],
 	bundle: true,
 	format: 'iife',
 	minify: true,
@@ -40,4 +43,10 @@ await build({
 	loader: { '.ttf': 'file' }
 });
 
-await fs.promises.copyFile('ui.html', './dist/ui.html');
+await build({
+	entryPoints: ['background.ts'],
+	bundle: true,
+	format: 'iife',
+	minify: true,
+	outfile: './dist/background.js',
+});
