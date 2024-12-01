@@ -2,8 +2,21 @@ import { build } from 'esbuild';
 import fs from 'fs';
 import path from 'path';
 
-await fs.promises.mkdir("./dist", { recursive: true });
-await fs.promises.copyFile('ui.html', './dist/ui.html');
+const assets = [
+	'manifest.json',
+	'ui.html',
+	'icon/icon-16.png',
+	'icon/icon-32.png',
+	'icon/icon-48.png',
+	'icon/icon-128.png',
+	'icon/icon-512.png',
+];
+
+for (const src of assets) {
+	const dst = path.join('dist', src);
+	await fs.promises.mkdir(path.dirname(dst), { recursive})
+	await fs.promises.copyFile(src, dst);
+}
 
 function monacoPath(name) {
 	return path.join('./monaco-editor/out/monaco-editor', name);
