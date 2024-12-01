@@ -6,7 +6,8 @@
 
 ``` sh
 npm ci
-npm run build
+npm run build:monaco
+npm run package
 ```
 
 ### Install
