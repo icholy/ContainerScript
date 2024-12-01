@@ -2,6 +2,10 @@
 
 > Firefox Addon for programatically assigning URLs to containers.
 
+### Screenshot
+
+![](./screenshot.png)
+
 ### Build
 
 ``` sh
