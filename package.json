@@ -7,28 +7,19 @@
     "build": "node ./build.mjs",
     "build:monaco": "npm ci --ignore-scripts --prefix ./monaco-editor && npm run build-monaco-editor --prefix ./monaco-editor",
     "package": "npm run build && web-ext build -s ./dist -a . -o",
+    "format": "prettier --write ui.ts background.ts",
     "lint": "web-ext lint -s ./dist"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/firefox-webext-browser": "^120.0.4",
-    "copy-webpack-plugin": "^12.0.2",
-    "css-loader": "^7.1.2",
     "esbuild": "^0.24.0",
-    "file-loader": "^6.2.0",
-    "monaco-editor-webpack-plugin": "^7.1.0",
     "prettier": "^3.4.1",
-    "style-loader": "^4.0.0",
-    "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
-    "web-ext": "^8.3.0",
-    "webpack": "^5.96.1",
-    "webpack-bundle-analyzer": "^4.10.2",
-    "webpack-cli": "^5.1.4"
+    "web-ext": "^8.3.0"
   },
   "dependencies": {
-    "monaco-editor": "^0.52.0",
     "sval": "^0.5.2"
   }
 }
