@@ -14,7 +14,7 @@ const assets = [
 
 for (const src of assets) {
 	const dst = path.join('dist', src);
-	await fs.promises.mkdir(path.dirname(dst), { recursive})
+	await fs.promises.mkdir(path.dirname(dst), { recursive: true });
 	await fs.promises.copyFile(src, dst);
 }
 
