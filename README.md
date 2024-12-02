@@ -2,6 +2,10 @@
 
 > Firefox Addon for programatically assigning URLs to containers.
 
+### Install
+
+https://addons.mozilla.org/en-CA/firefox/addon/container-script/
+
 ### Screenshot
 
 ![](./screenshot.png)
@@ -14,7 +18,7 @@ npm run build:monaco
 npm run package
 ```
 
-### Install
+### Local Development
 
 * Open firefox to `about:debugging#/runtime/this-firefox`
 * Click "Load Temporary Add-on..."
