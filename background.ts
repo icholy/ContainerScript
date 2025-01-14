@@ -24,9 +24,12 @@ interface ContainerInfo {
   color?: string;
 }
 
-function toContainerInfo(value: any): ContainerInfo | undefined {
-  if (!value) {
+function toContainerInfo(value: any): ContainerInfo | null | undefined {
+  if (value === undefined) {
     return undefined;
+  }
+  if (value === null) {
+    return null;
   }
   if (typeof value === "string") {
     return { name: value };
@@ -55,10 +58,29 @@ async function onBeforeRequest(
   interpreter.run(program);
 
   const info = toContainerInfo(interpreter.exports.end);
-  if (!info) {
+  if (info === undefined) {
     return {};
   }
 
+  const tab = await browser.tabs.get(request.tabId);
+
+  if (info === null) {
+    // Open in the default container (no container)
+    if (!tab.cookieStoreId || tab.cookieStoreId === "firefox-default") {
+      return {};
+    }
+
+    await browser.tabs.create({
+      url: request.url,
+      cookieStoreId: "firefox-default", // Default container
+    });
+
+    await browser.tabs.remove(request.tabId);
+
+    return { cancel: true };
+  }
+
+  // Existing logic to handle opening in specified containers
   // Get or create the container
   const containers = await browser.contextualIdentities.query({
     name: info.name,
@@ -71,8 +93,6 @@ async function onBeforeRequest(
       icon: info.icon ?? "fingerprint",
     }));
 
-  // Check if it's already in the correct container
-  const tab = await browser.tabs.get(request.tabId);
   if (tab.cookieStoreId === container.cookieStoreId) {
     return {};
   }
