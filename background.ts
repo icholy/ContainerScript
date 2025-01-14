@@ -19,28 +19,22 @@ onScriptChanged();
 browser.storage.local.onChanged.addListener(onScriptChanged);
 
 interface ContainerInfo {
-  name: string;
+  name: string | null;
   icon?: string;
   color?: string;
 }
 
-function toContainerInfo(value: any): ContainerInfo | null | undefined {
-  if (value === undefined) {
-    return undefined;
+function toContainerInfo(value: any): ContainerInfo | undefined {
+  if (typeof value !== "object" || value === null) {
+    return toContainerInfo({ name: value });
   }
-  if (value === null) {
-    return null;
-  }
-  if (typeof value === "string") {
-    return { name: value };
-  }
-  if (typeof value === "object") {
-    if (value.name && typeof value.name === "string") {
-      return value;
-    }
+  if (typeof value.name === "string" || value.name === null) {
+    return value;
   }
   return undefined;
 }
+
+const DEFAULT_COOKIE_STORE_ID = "firefox-default";
 
 async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
@@ -58,21 +52,21 @@ async function onBeforeRequest(
   interpreter.run(program);
 
   const info = toContainerInfo(interpreter.exports.end);
-  if (info === undefined) {
+  if (!info) {
     return {};
   }
 
   const tab = await browser.tabs.get(request.tabId);
 
-  if (info === null) {
-    // Open in the default container (no container)
-    if (!tab.cookieStoreId || tab.cookieStoreId === "firefox-default") {
+  // Open in the default container (no container) if name is null.
+  if (info.name === null) {
+    if (!tab.cookieStoreId || tab.cookieStoreId === DEFAULT_COOKIE_STORE_ID) {
       return {};
     }
 
     await browser.tabs.create({
       url: request.url,
-      cookieStoreId: "firefox-default", // Default container
+      cookieStoreId: DEFAULT_COOKIE_STORE_ID,
     });
 
     await browser.tabs.remove(request.tabId);
@@ -80,7 +74,6 @@ async function onBeforeRequest(
     return { cancel: true };
   }
 
-  // Existing logic to handle opening in specified containers
   // Get or create the container
   const containers = await browser.contextualIdentities.query({
     name: info.name,
