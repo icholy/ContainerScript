@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "ContainerScript",
-  "version": "1.1",
+  "version": "1.2",
   "description": "User defined scripts for assining URLs to containers",
   "permissions": [
     "<all_urls>",
