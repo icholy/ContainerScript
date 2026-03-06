@@ -2,15 +2,6 @@ import Sval from "sval";
 import * as acorn from "acorn";
 
 let program: acorn.Program | undefined;
-let keepTab = false;
-
-async function onSettingsChanged() {
-  const result = await browser.storage.local.get("keepTab");
-  keepTab = result.keepTab === true;
-}
-
-onSettingsChanged();
-browser.storage.local.onChanged.addListener(onSettingsChanged);
 
 async function onScriptChanged() {
   program = undefined;
@@ -31,6 +22,7 @@ interface ContainerInfo {
   name: string | null;
   icon?: string;
   color?: string;
+  replace: boolean;
 }
 
 function toContainerInfo(value: any): ContainerInfo | undefined {
@@ -45,10 +37,6 @@ function toContainerInfo(value: any): ContainerInfo | undefined {
 
 const DEFAULT_COOKIE_STORE_ID = "firefox-default";
 
-function isNewTab(tab: browser.tabs.Tab): boolean {
-  return !tab.url || tab.url === "about:newtab" || tab.url === "about:blank" || tab.url === "about:home";
-}
-
 async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
 ): Promise<browser.webRequest.BlockingResponse> {
@@ -56,20 +44,21 @@ async function onBeforeRequest(
     return {};
   }
 
+  const tab = await browser.tabs.get(request.tabId);
+  const sourceUrl = tab.url ? new URL(tab.url) : undefined;
+
   const interpreter = new Sval({
     ecmaVer: "latest",
     sourceType: "script",
     sandBox: true,
   });
-  interpreter.import({ url: new URL(request.url) });
+  interpreter.import({ url: new URL(request.url), sourceUrl });
   interpreter.run(program);
 
   const info = toContainerInfo(interpreter.exports.end);
   if (!info) {
     return {};
   }
-
-  const tab = await browser.tabs.get(request.tabId);
 
   // Open in the default container (no container) if name is null.
   if (info.name === null) {
@@ -82,7 +71,7 @@ async function onBeforeRequest(
       cookieStoreId: DEFAULT_COOKIE_STORE_ID,
     });
 
-    if (!keepTab || isNewTab(tab)) {
+    if (info.replace != false) {
       await browser.tabs.remove(request.tabId);
     }
 
@@ -112,7 +101,7 @@ async function onBeforeRequest(
   });
 
   // Close the old tab
-  if (!keepTab || isNewTab(tab)) {
+  if (info.replace !== false) {
     await browser.tabs.remove(request.tabId);
   }
 

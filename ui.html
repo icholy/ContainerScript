@@ -95,28 +95,50 @@
 					<p>Programmatically assign URLs to containers.</p>
 				</div>
 			</div>
-			<div style="margin-bottom: 10px;">
-				<label style="color: #2c3e50; cursor: pointer; user-select: none;">
-					<input type="checkbox" id="keepTab"> Keep original tab open on container switch
-				</label>
-			</div>
 			<div id="root"></div>
 			<details class="instructions">
 				<summary>How to Use ContainerScript</summary>
 				<div class="instructions-content">
 					<p>
 						Write JavaScript code to define container rules.
-						The code runs each time you open a URL, with the <code>url</code> variable (an instance of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> class) available in scope.
+						The code runs each time you navigate to a URL. Two variables are available:
+					</p>
+					<ul style="color: #34495e; line-height: 1.8; margin-bottom: 15px;">
+						<li><code>url</code> &mdash; the <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> being navigated to.</li>
+						<li><code>sourceUrl</code> &mdash; the URL of the page that initiated the navigation (may be <code>undefined</code> for new tabs).</li>
+					</ul>
+					<p>
 						The code is executed using <a href="https://github.com/Siubaak/sval">Sval</a> due to <a href="https://www.w3.org/TR/CSP/">CSP</a> restrictions.
 					</p>
 					<h3>Basic Usage</h3>
-					<p>Return a string to open the URL in that container:</p>
+					<p>Return a string to open the URL in that container (replaces the current tab):</p>
 					<p><code>if (url.hostname === "www.amazon.com") return "shopping";</code></p>
 					<p>Return <code>null</code> to open the URL in the default container (no container):</p>
 					<p><code>if (url.hostname === "github.com") return null;</code></p>
 					<h3>Advanced Configuration</h3>
-					<p>Return an object for more control over the container:</p>
-					<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" }; </code></p>
+					<p>Return an object for more control. Use <code>name</code> (or <code>profile</code>) for the container name, and <code>replace</code> to control whether the original tab is closed:</p>
+					<p><code>if (url.toString().includes("bank.com")) return { name: "finance", icon: "fingerprint", color: "blue" };</code></p>
+					<p>Keep the original tab open by setting <code>replace</code> to <code>false</code>:</p>
+					<p><code>if (url.hostname === "example.com") return { name: "work", replace: false };</code></p>
+					<p>Use <code>sourceUrl</code> to keep the original tab open when navigating from a specific site (e.g. Google):</p>
+<pre style="background-color: #f8f9fa; padding: 12px 16px; border-radius: 3px; font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; font-size: 0.9em; color: #e83e8c; line-height: 1.6; overflow-x: auto;"><code>
+let replace = true;
+switch (sourceUrl?.hostname) {
+    case "www.google.com":
+    case "duckduckgo.com":
+    case "www.bing.com":
+        replace = false;
+}
+
+switch (url.hostname) {
+    case "www.youtube.com":
+    case "chatgpt.com":
+    case "www.reddit.com":
+        return { name: "Personal", replace };
+}
+
+return null;
+</code></pre>
 				</div>
 			</details>
 		</div>

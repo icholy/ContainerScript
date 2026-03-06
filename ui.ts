@@ -11,24 +11,20 @@ async function main() {
     },
   };
 
-  // setup the url parameter for auto-complete
+  // setup auto-complete for available variables
   const libSource = [
     "/**",
-    " * The URL we're finding a container for",
+    " * The URL being navigated to",
     " */",
     "declare const url: URL",
+    "/**",
+    " * The URL of the page that initiated the navigation (may be undefined for new tabs)",
+    " */",
+    "declare const sourceUrl: URL | undefined",
   ].join("\n");
   const libUri = "ts:filename/ContainerScript.d.ts";
   monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
   monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
-
-  // setup keepTab checkbox
-  const keepTabCheckbox = document.getElementById("keepTab") as HTMLInputElement;
-  const { keepTab } = await browser.storage.local.get("keepTab");
-  keepTabCheckbox.checked = keepTab === true;
-  keepTabCheckbox.addEventListener("change", () => {
-    browser.storage.local.set({ keepTab: keepTabCheckbox.checked });
-  });
 
   const { script } = await browser.storage.local.get("script");
 
