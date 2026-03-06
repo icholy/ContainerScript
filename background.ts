@@ -2,6 +2,15 @@ import Sval from "sval";
 import * as acorn from "acorn";
 
 let program: acorn.Program | undefined;
+let keepTab = false;
+
+async function onSettingsChanged() {
+  const result = await browser.storage.local.get("keepTab");
+  keepTab = result.keepTab === true;
+}
+
+onSettingsChanged();
+browser.storage.local.onChanged.addListener(onSettingsChanged);
 
 async function onScriptChanged() {
   program = undefined;
@@ -36,6 +45,10 @@ function toContainerInfo(value: any): ContainerInfo | undefined {
 
 const DEFAULT_COOKIE_STORE_ID = "firefox-default";
 
+function isNewTab(tab: browser.tabs.Tab): boolean {
+  return !tab.url || tab.url === "about:newtab" || tab.url === "about:blank" || tab.url === "about:home";
+}
+
 async function onBeforeRequest(
   request: browser.webRequest._OnBeforeRequestDetails,
 ): Promise<browser.webRequest.BlockingResponse> {
@@ -69,7 +82,9 @@ async function onBeforeRequest(
       cookieStoreId: DEFAULT_COOKIE_STORE_ID,
     });
 
-    await browser.tabs.remove(request.tabId);
+    if (!keepTab || isNewTab(tab)) {
+      await browser.tabs.remove(request.tabId);
+    }
 
     return { cancel: true };
   }
@@ -97,7 +112,9 @@ async function onBeforeRequest(
   });
 
   // Close the old tab
-  await browser.tabs.remove(request.tabId);
+  if (!keepTab || isNewTab(tab)) {
+    await browser.tabs.remove(request.tabId);
+  }
 
   return { cancel: true };
 }

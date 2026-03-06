@@ -22,6 +22,14 @@ async function main() {
   monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
   monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
+  // setup keepTab checkbox
+  const keepTabCheckbox = document.getElementById("keepTab") as HTMLInputElement;
+  const { keepTab } = await browser.storage.local.get("keepTab");
+  keepTabCheckbox.checked = keepTab === true;
+  keepTabCheckbox.addEventListener("change", () => {
+    browser.storage.local.set({ keepTab: keepTabCheckbox.checked });
+  });
+
   const { script } = await browser.storage.local.get("script");
 
   // create the editor
