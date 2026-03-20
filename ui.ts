@@ -11,12 +11,16 @@ async function main() {
     },
   };
 
-  // setup the url parameter for auto-complete
+  // setup auto-complete for available variables
   const libSource = [
     "/**",
-    " * The URL we're finding a container for",
+    " * The URL being navigated to",
     " */",
     "declare const url: URL",
+    "/**",
+    " * The URL of the page that initiated the navigation (may be undefined for new tabs)",
+    " */",
+    "declare const sourceUrl: URL | undefined",
   ].join("\n");
   const libUri = "ts:filename/ContainerScript.d.ts";
   monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);

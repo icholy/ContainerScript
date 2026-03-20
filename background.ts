@@ -22,6 +22,7 @@ interface ContainerInfo {
   name: string | null;
   icon?: string;
   color?: string;
+  replace: boolean;
 }
 
 function toContainerInfo(value: any): ContainerInfo | undefined {
@@ -43,20 +44,21 @@ async function onBeforeRequest(
     return {};
   }
 
+  const tab = await browser.tabs.get(request.tabId);
+  const sourceUrl = tab.url ? new URL(tab.url) : undefined;
+
   const interpreter = new Sval({
     ecmaVer: "latest",
     sourceType: "script",
     sandBox: true,
   });
-  interpreter.import({ url: new URL(request.url) });
+  interpreter.import({ url: new URL(request.url), sourceUrl });
   interpreter.run(program);
 
   const info = toContainerInfo(interpreter.exports.end);
   if (!info) {
     return {};
   }
-
-  const tab = await browser.tabs.get(request.tabId);
 
   // Open in the default container (no container) if name is null.
   if (info.name === null) {
@@ -69,7 +71,9 @@ async function onBeforeRequest(
       cookieStoreId: DEFAULT_COOKIE_STORE_ID,
     });
 
-    await browser.tabs.remove(request.tabId);
+    if (info.replace != false) {
+      await browser.tabs.remove(request.tabId);
+    }
 
     return { cancel: true };
   }
@@ -97,7 +101,9 @@ async function onBeforeRequest(
   });
 
   // Close the old tab
-  await browser.tabs.remove(request.tabId);
+  if (info.replace !== false) {
+    await browser.tabs.remove(request.tabId);
+  }
 
   return { cancel: true };
 }
