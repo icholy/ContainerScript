@@ -47,12 +47,14 @@ async function onBeforeRequest(
   const tab = await browser.tabs.get(request.tabId);
   const sourceUrl = tab.url ? new URL(tab.url) : undefined;
 
+  const tabContainerName = (await browser.contextualIdentities.get(tab.cookieStoreId)).name;
+
   const interpreter = new Sval({
     ecmaVer: "latest",
     sourceType: "script",
     sandBox: true,
   });
-  interpreter.import({ url: new URL(request.url), sourceUrl });
+  interpreter.import({ url: new URL(request.url), sourceUrl, containerName: tabContainerName });
   interpreter.run(program);
 
   const info = toContainerInfo(interpreter.exports.end);
