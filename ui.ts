@@ -21,6 +21,10 @@ async function main() {
     " * The URL of the page that initiated the navigation (may be undefined for new tabs)",
     " */",
     "declare const sourceUrl: URL | undefined",
+    "/**",
+    " * The name of the current container of the tab",
+    " */",
+    "declare const containerName: string | undefined",    
   ].join("\n");
   const libUri = "ts:filename/ContainerScript.d.ts";
   monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
